@@ -1,11 +1,8 @@
-# Emoji
+# Emoji😀
 
-Emoji Base1024 encode
-Emoji Base1024 编码
+使用Base1024编解码，实现文字和Emoji😀互相转换。
 
 示例网站：[emoji.levana.fun](https://emoji.levana.fun)
-
-可以将文字编码成emoji, 或者将emoji解码成文字
 
 ### 如何使用
 
