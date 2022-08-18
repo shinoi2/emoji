@@ -298,16 +298,15 @@ html, body {
 }
 .main{
   height: calc(100% - 60px);
-  /* flex布局让块垂直居中 */
-  display: flex;
   align-items: center;
 }
 textarea {
   margin: 10px 10px 10px;
   padding: 10px;
+  width: calc(100% - 20px);
 }
 textarea.ant-input {
-  height: calc(100% - 20px)
+  height: calc(50% - 20px)
 }
 /* textarea.an */
 </style>

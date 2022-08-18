@@ -16,7 +16,6 @@ export default {
 
 <style>
 h1 {
-  margin-top: 0;
   height: 40px;
   padding: 10px 10px 10px 10px;
 }
