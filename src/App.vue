@@ -16,8 +16,8 @@ export default {
 
 <style>
 h1 {
+  margin-top: 0;
   height: 40px;
-  margin: 40px 0 0;
   padding: 10px 10px 10px 10px;
 }
 #app {
