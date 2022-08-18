@@ -126,7 +126,7 @@ export default {
         '🧞', '🧟', '🧠', '🧡', '🧢', '🧣', '🧤', '🧥', '🧦', '🧧',
         '🧨', '🧩', '🧪', '🧫', '🧬', '🧭', '🧮', '🧯', '🧰', '🧱',
         '🧲', '🧳', '🧴', '🧵', '🧶', '🧷', '🧸', '🧹', '🧺', '🧻',
-        '🧼', '🧽', '🧾', '🧿'],
+        '🧼', '🧽', '🧾', '🧿', '🆗'],
       emoji_map: {
         '🆘': 0, '🆙': 1, '🆚': 2, '🈁': 3, '🈂': 4, '🈚': 5, '🈯': 6, '🈲': 7, '🈳': 8, '🈴': 9, '🈵': 10,
         '🈶': 11, '🈷': 12, '🈸': 13, '🈹': 14, '🈺': 15, '🉐': 16, '🉑': 17, '🌀': 18, '🌁': 19, '🌂': 20,
@@ -230,7 +230,7 @@ export default {
         '🧟': 991, '🧠': 992, '🧡': 993, '🧢': 994, '🧣': 995, '🧤': 996, '🧥': 997, '🧦': 998, '🧧': 999, '🧨': 1000,
         '🧩': 1001, '🧪': 1002, '🧫': 1003, '🧬': 1004, '🧭': 1005, '🧮': 1006, '🧯': 1007, '🧰': 1008, '🧱': 1009, '🧲': 1010,
         '🧳': 1011, '🧴': 1012, '🧵': 1013, '🧶': 1014, '🧷': 1015, '🧸': 1016, '🧹': 1017, '🧺': 1018, '🧻': 1019, '🧼': 1020,
-        '🧽': 1021, '🧾': 1022, '🧿': 1023},
+        '🧽': 1021, '🧾': 1022, '🧿': 1023, '🆗': 1024},
       emoji_end: '🆗',
       output: ""
     }
@@ -239,53 +239,64 @@ export default {
     text2emoji(message) {
       if (message.length == 0) return;
       let utf8Encode = new TextEncoder();
-      var encode = utf8Encode.encode(message)
-      var bin = ""
-      for (var ch of encode)
+      let encode = utf8Encode.encode(message)
+      let bin = ""
+      for (let ch of encode)
       {
-        var temp = ch.toString(2)
+        let temp = ch.toString(2)
         while (temp.length != 8) temp = '0' + temp
         bin += temp
       }
-      var output = ""
-      for (var i=0; i<bin.length; i+=10)
+      let output = ""
+      for (let i=0; i<bin.length; i+=10)
       {
         output += this.emoji[parseInt(bin.slice(i, i+10), 2)];
       }
       if (bin.length % 10 == 0)
         output += this.emoji_end;
+      output += " —— emoji.levana.fun";
       this.emoji_msg = output;
+    },
+    remove_no_emoji(emoji) {
+      for (var i=0; i<emoji.length;) {
+        if (emoji.slice(i, i+2) in this.emoji_map) {
+          i = i+2;
+        } else {
+          emoji = emoji.substring(0, i) + emoji.substring(i+1)
+        }
+      }
+      return emoji
     },
     emoji2text(emoji)
     {
+      emoji = this.remove_no_emoji(emoji)
       let utf8Decode = new TextDecoder()
-      var end = false
+      let end = false
       if (emoji.slice(-2) == this.emoji_end) {
         emoji = emoji.slice(0, -2)
         end = true
       }
       if (emoji.length == 0) return;
-      var bin = ""
-      var temp = ""
+      let len = emoji.length;
+      let bin = ""
+      let temp = ""
       for (let i=0; i<emoji.length; i+=2)
       {
         bin += temp
-        if (emoji.slice(i, i+2) in this.emoji_map) {
-          temp = this.emoji_map[emoji.slice(i, i+2)].toString(2)
-        }
+        temp = this.emoji_map[emoji.slice(i, i+2)].toString(2)
         while(temp.length != 10) temp = '0' + temp
       }
       if (!end)
       {
-        var len = (emoji.length / 2) % 4
+        len = (len / 2) % 4
         if (len == 0) len = 4
         temp = temp.slice(len*2)
       }
       bin += temp
-      var arr = []
+      let arr = []
       for (let i=0; i<bin.length; i+=8)
         arr.push(parseInt(bin.slice(i, i+8), 2))
-      var message = utf8Decode.decode(new Uint8Array(arr))
+      let message = utf8Decode.decode(new Uint8Array(arr))
       this.msg = message
     }
   }
