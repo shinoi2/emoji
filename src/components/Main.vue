@@ -1,38 +1,24 @@
 <template>
-  <div id="main">
-    <div>
-      <a-textarea
-        type="textarea"
-        v-model:value="msg"
-        placeholder="字"
-        :auto-size="{ minRows: 5}"
-      />
-    </div>
-    <div style="margin: 10px 10px;">
-      <a-space>
-        <a-button type="primary" v-on:click="text2emoji(msg)"><DownOutlined /></a-button>
-        <a-button type="primary" v-on:click="emoji2text(emoji_msg)"><UpOutlined /></a-button>
-      </a-space>
-    </div>
-    <div>
-      <a-textarea
-        v-model:value="emoji_msg"
-        placeholder="😀"
-        :auto-size="{ minRows: 5}"
-      />
-    </div>
+  <div class='main'>
+    <a-textarea
+      v-model:value="msg"
+      placeholder="字"
+      :bordered="false"
+      @change="text2emoji(msg)">
+    </a-textarea>
+    <a-textarea
+      v-model:value="emoji_msg"
+      placeholder="😀"
+      :bordered="false"
+      @change="emoji2text(emoji_msg)">
+    </a-textarea>
   </div>
 </template>
 
 <script>
-import { DownOutlined, UpOutlined } from '@ant-design/icons-vue'
 
 export default {
   name: 'Main',
-  components: {
-    DownOutlined,
-    UpOutlined,
-  },
   data() {
     return {
       msg: "",
@@ -261,7 +247,6 @@ export default {
         while (temp.length != 8) temp = '0' + temp
         bin += temp
       }
-      console.log(bin)
       var output = ""
       for (var i=0; i<bin.length; i+=10)
       {
@@ -285,19 +270,19 @@ export default {
       for (let i=0; i<emoji.length; i+=2)
       {
         bin += temp
-        temp = this.emoji_map[emoji.slice(i, i+2)].toString(2)
+        if (emoji.slice(i, i+2) in this.emoji_map) {
+          temp = this.emoji_map[emoji.slice(i, i+2)].toString(2)
+        }
         while(temp.length != 10) temp = '0' + temp
       }
       if (!end)
       {
         var len = (emoji.length / 2) % 4
-        console.log(len)
         if (len == 0) len = 4
         temp = temp.slice(len*2)
       }
       bin += temp
       var arr = []
-      console.log(bin)
       for (let i=0; i<bin.length; i+=8)
         arr.push(parseInt(bin.slice(i, i+8), 2))
       var message = utf8Decode.decode(new Uint8Array(arr))
@@ -307,28 +292,22 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+html, body {
+    height: 100%;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a-row{
-  display: inline-block;
-}
-a {
-  color: #42b983;
+.main{
+  height: calc(100% - 60px);
+  /* flex布局让块垂直居中 */
+  display: flex;
+  align-items: center;
 }
 textarea {
-  margin: auto;
-  width: 50%;
+  margin: 10px 10px 10px;
   padding: 10px;
 }
+textarea.ant-input {
+  height: calc(100% - 20px)
+}
+/* textarea.an */
 </style>

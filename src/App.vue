@@ -15,12 +15,19 @@ export default {
 </script>
 
 <style>
+h1 {
+  height: 40px;
+  margin: 40px 0 0;
+  padding: 10px 10px 10px 10px;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  height: 100%;
+  /* margin: 0 10px; */
+  /* flex布局让块垂直居中 */
+  align-items: center;
 }
 </style>
